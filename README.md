@@ -1,10 +1,10 @@
-Alt-121 Project
+121 Project
 ===========
-### Project of Clare, Meg and Josiah
+### By Clare, Meg and Josiah
 
 
-** Next Due Date: Mon. 14 ** 
-* To Do *
+**Next Due Date: Mon. 14** 
+*To Do*
 1. Meg
 ..- Main Menu
 ..- Info Page
