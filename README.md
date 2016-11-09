@@ -8,15 +8,21 @@
 *To Do*
 
 1. Meg
+
 ..- Main Menu
+
 ..- Info Page
 
 2. Josiah
+
 ..- Game_Button Class
+
 ..- Game_Window Class
 
 3. Clare
+
 ..- Tile Class
+
 ..- Game Window
 
 #### Everyone
