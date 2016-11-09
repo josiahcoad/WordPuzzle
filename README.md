@@ -8,19 +8,14 @@
 *To Do*
 
 1. Meg
-  * Main Menu
-  * Info Page
+ 	* Main Menu
+	* Info Page
 2. Josiah
-
-..- Game_Button Class
-
-..- Game_Window Class
-
+	* Game_Button Class
+	* Game_Window Class
 3. Clare
-
-..- Tile Class
-
-..- Game Window
+	* Tile Class
+	* Game Window
 
 #### Everyone
 - Polish google doc
