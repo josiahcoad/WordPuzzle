@@ -8,8 +8,8 @@
 *To Do*
 
 1. Meg
-..* Main Menu
-..* Info Page
+..*Main Menu
+..*Info Page
 
 2. Josiah
 
