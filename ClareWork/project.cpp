@@ -53,8 +53,9 @@ struct game_window : public Graph_lib::Window {
       void threepressed();
       void fourpressed();
       void fivepressed();
+      void quit();
       void makematrix(int size);
-      void matrixpressed(string letter);
+      void matrixpressed(Fl_Button*);
 };
 vector<char> getrand(int n){
       srand(time(NULL));
@@ -75,10 +76,6 @@ void game_window::makematrix(int size){
       {
             for (int j=1; j<=size; ++j)
             {
-                  // stringstream ss;
-                  // string needthis;
-                  // ss<<newvec[x];
-                  // ss>>needthis;
                   string letter = string(1, newvec[x]);
                   buttonvec.push_back(new Button(Point(0+50*i,85+50*j),50,50,letter,cb_matrixstuff));
                   ++x;
@@ -203,6 +200,9 @@ bool game_window::isword(string word){
 void game_window::backspacepressed(){
       currentword = currentword.substr(0, currentword.size()-1);
       currentwordbox.put(currentword);
+      last_pressed[last_pressed.size()-1]->show();
+      last_pressed.pop_back();
+
 }
 void game_window::threepressed()
 {
@@ -219,9 +219,15 @@ void game_window::fivepressed()
       matrixsize.hide();
       makematrix(5);
 }
-void game_window::matrixpressed(string letter)
+
+void game_window::quit() {
+  hide();                   // FLTK idiom for delete window
+}
+void game_window::matrixpressed(Fl_Button* button)
 {
-      // cout << "pressed " << letter << endl; for debugging
+      string letter = button->label();
+      last_pressed.push_back(button);
+      button->hide();
       currentword += letter;
       currentwordbox.put(currentword);
 }
@@ -250,26 +256,40 @@ void game_window::cb_backspace(Address, Address pw){
 }
 void game_window::cb_back(Address, Address pw)
 {
-
+      reference_to<game_window>(pw).quit();
 }
 void game_window::cb_matrixstuff(Address flbp, Address pw)
 {
-      string letter = ((Fl_Button*)(flbp))->label();
-      last_pressed.push_back((Fl_Button*)(flbp));
-      ((Fl_Button*)(flbp))->hide();
-      reference_to<game_window>(pw).matrixpressed(letter);
+      reference_to<game_window>(pw).matrixpressed((Fl_Button*)flbp);
 }
+
+
+int enter_game(){
+      game_window win(Point(100,100),600,400,"game window");
+      cout << ".. is this a problem that the screen doesn't go away?";
+      return gui_main();
+}
+
+int main(){
+      string ready;
+      cout << "press any key and enter to open: ";
+      cin >> ready;
+      enter_game();
+      cout << "cool. press any key and enter to exit: ";
+      cin >> ready;
+}
+/*
 int main(){
       try{
-game_window win(Point(100,100),600,400,"game window");
-return gui_main();
+            
+      }
+      catch(exception& e){
+            cerr<<"exception: "<<e.what()<<'\n';
+            return 1;
+      }
+      catch(...){
+            cerr<<"some exception\n";
+            return 2;
+      }
 }
-catch(exception& e){
-      cerr<<"exception: "<<e.what()<<'\n';
-      return 1;
-}
-catch(...){
-      cerr<<"some exception\n";
-      return 2;
-}
-}
+*/
