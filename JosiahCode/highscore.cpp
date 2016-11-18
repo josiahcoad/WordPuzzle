@@ -9,31 +9,54 @@ using namespace Graph_lib;
 using namespace std;
 
 
-struct Highscore_window : Graph_lib::Window {
+struct Highscore_window : public Graph_lib::Window {
   // constructor
   Highscore_window(Point xy,
              int w,
              int h,
              const string& title);
 
-
   private:
   Button main_button;
+  Text t;
+  Text score;
+  Image ii;
+  //Image ij;
+   static void cb_main(Address, Address pw);
+};
 
-  static void cb_main(Address, Address pw));
-  };
   Highscore_window::Highscore_window(Point xy, int w, int h, const string& title):
   Window(xy,w,h,title),
   main_button(
-        Point(300,200),
-        70, 20,
+        Point(250,350),
+        100, 20,
         "MAIN MENU",
-        cb_enter)
+        cb_main),
+t(
+      Point(30,250),
+      "name place holder"),
+score(
+      Point(200,250),
+      "number"),
+ii(
+      Point(125,10),
+      "highscore.jpg"
+)
+//ij(
+//      Point(50,20),
+//      "will.jpg")
 {
       attach(main_button);
-      attach(new Image ii{Point{100,50},".jpg"})
-}
+      attach(t);
+      attach(score);
+      attach(ii);
+      //attach(ij);
 
+}
+void Highscore_window::cb_main(Address, Address pw)
+{
+
+}
 int main() {
   // construct the GUI window
 
