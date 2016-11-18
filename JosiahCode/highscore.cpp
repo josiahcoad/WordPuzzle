@@ -11,27 +11,42 @@ using namespace std;
 
 struct Highscore_window : Graph_lib::Window {
   // constructor
-  Highscore_window(const string& title):
-  Window(window_corner, window_w, window_h, title),
-  main_button(
-  Point((window_w/2.0)-100, window_h - 100), 200, 20, "MAIN MENU", cb_main)
-  { attach(main_button); }
-  
+  Highscore_window(Point xy,
+             int w,
+             int h,
+             const string& title);
+
 
   private:
   Button main_button;
-  int button_w = 80;
 
-  static void cb_main(Address, Address pw){
-    reference_to<Highscore_window>(pw).quit();
-  }
-
-  void quit() { hide(); } 
-};
+  static void cb_main(Address, Address pw));
+  };
+  Highscore_window::Highscore_window(Point xy, int w, int h, const string& title):
+  Window(xy,w,h,title),
+  main_button(
+        Point(300,200),
+        70, 20,
+        "MAIN MENU",
+        cb_enter)
+{
+      attach(main_button);
+      attach(new Image ii{Point{100,50},".jpg"})
+}
 
 int main() {
   // construct the GUI window
-  
-  Highscore_window win("High Score!");
-  return gui_main();  // inherited from Window; calls FLTK's run
+
+  try{
+Highscore_window win(Point(100,100),600,400,"High score!");
+return gui_main();
+}
+catch(exception& e){
+ cerr<<"exception: "<<e.what()<<'\n';
+ return 1;
+}
+catch(...){
+ cerr<<"some exception\n";
+ return 2;
+}
 }
