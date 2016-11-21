@@ -1,6 +1,6 @@
 Josiah Coad
 mypath/mypicture
-13 44 22 25 0 
+13 44 22 25 0 0 
 newguy
 newpicture
 
