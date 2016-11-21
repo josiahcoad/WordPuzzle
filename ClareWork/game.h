@@ -216,8 +216,8 @@ void game_window::backspacepressed(){
       last_pressed[last_pressed.size()-1]->show();
       // this removes the last button from the list
       last_pressed.pop_back();
-
 }
+
 void game_window::threepressed()
 {
       matrixsize.hide();

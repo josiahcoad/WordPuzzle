@@ -25,10 +25,8 @@ int enter_main(){
 
 
 int main(){
-  // PlayersList players("players.txt");
-  // cout << players["Josiah Coad"];
+  PlayersList players("players.txt");
   while (nextwindow != "quit"){
-
     if (nextwindow == "main") enter_main();
     else if (nextwindow == "highscore") enter_highscore();
     else if (nextwindow == "game") enter_game();
