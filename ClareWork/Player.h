@@ -12,7 +12,7 @@
 struct Player{
 	Player(){} // allows an empty initialization of this class
 	Player(string name,
-	 		 string picturepath="missing.png",
+	 		 string picturepath,
 	 		 vector<int> scores){
 		this -> name = name;
 		this -> picturepath = picturepath;
