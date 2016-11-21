@@ -50,6 +50,7 @@ private:
 	Button view_high_score_button;
     Button quit_button;                // end program
 	Image header;
+	Image info_header;
 	//TODO: add to constructor
 	
 	In_box user_name;
@@ -76,6 +77,7 @@ private:
 		attach(user_name);
 		attach(profile_image);
 		attach(enter_game_button);
+		attach(info_header);
 		//todo: show text on screen
 	}
 
@@ -104,6 +106,7 @@ private:
 		enter_game_button.hide();
 		user_name.hide();
 		profile_image.hide();
+		detach(info_header);
 	}
 	
 	void show_game_screen() {
@@ -208,8 +211,13 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
 				"Back to Main Menu",
 				cb_finish_game),
 		header(
-				Point(100,50),
-				"word_header.jpg")
+				Point(130,50),
+				"word_header.jpg"),
+		info_header
+			(
+			Point(100,40),
+			"enter_user_header.jpg")
+			
 
 				
 // body of constructor follows
