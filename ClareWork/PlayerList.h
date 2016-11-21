@@ -116,13 +116,13 @@ bool PlayersList::exists(string name){
 	return false;
 }
 
+
 Player PlayersList::get_highest_scorer(){
 	int highscore = 0;
-	for (Player p : players){
-		for (int score : p.get_scores()){
-			if (score > highscore) highest_scorer = p;
-		}
-	}
+	for (Player p : players)
+		if (p.get_topscore() > highscore)
+			highest_scorer = p;
+
 	if (highscore > 0) return highest_scorer;
 	error("There is no highscore.");
 }

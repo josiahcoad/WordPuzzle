@@ -1,7 +1,7 @@
 #include "game.h"
 #include "highscore.h"
 #include "megan_project.h"
-// #include "PlayerList.h"
+#include "PlayerList.h"
 
 string nextwindow="main";
 

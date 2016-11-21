@@ -8,24 +8,28 @@ struct Player{
 		this -> name = name;
 		this -> picturepath = picturepath;
 		this -> scores = scores;
-		get_highscore();
+		topscore = 0;
+		set_topscore();
 	}
 	// convenience functions 
 	string get_name() { return name; }
 	string get_picturepath() { return picturepath; }
+	int get_topscore() { return topscore; }
 	vector<int> get_scores() { return scores; }
 
 	// used to add a score to a player
 	void addscore(const int& score){
+		if (score > topscore) topscore = score;
 		scores.push_back(score);
 	}
 
-
 	private:
-	void get_highscore(){
-		
+	void set_topscore(){
+		for (int s : scores)
+			if (s > topscore)
+				topscore = s;
 	}
-	
+
 	string name, picturepath;
 	int topscore;
 	vector<int> scores;
