@@ -1,14 +1,5 @@
 #include "std_lib_facilities_4.h"
 
-// ostream& operator<<(ostream& os, Player& p){
-// 		os << p.get_name() << "\n";
-// 		os << p.get_picturepath() << "\n";
-// 		os << p.get_scores();
-// 		// only adds new line if this player isnt the last player
-// 		os << (i == (p.size() - 1) ? "" : "\n");
-// 	return os;
-// }
-
 struct Player{
 	Player(){} // allows an empty initialization of this class
 	Player(string name,
@@ -17,6 +8,7 @@ struct Player{
 		this -> name = name;
 		this -> picturepath = picturepath;
 		this -> scores = scores;
+		get_highscore();
 	}
 	// convenience functions 
 	string get_name() { return name; }
@@ -28,7 +20,13 @@ struct Player{
 		scores.push_back(score);
 	}
 
+
 	private:
+	void get_highscore(){
+		
+	}
+	
 	string name, picturepath;
+	int topscore;
 	vector<int> scores;
 };

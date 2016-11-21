@@ -1,7 +1,7 @@
 #include "game.h"
 #include "highscore.h"
 #include "megan_project.h"
-#include "PlayerList.h"
+// #include "PlayerList.h"
 
 string nextwindow="main";
 
@@ -25,11 +25,12 @@ int enter_main(){
 
 
 int main(){
-  PlayersList players("players.txt");
+  // PlayersList players("players.txt");
+  // players["Josiah Coad"];
   while (nextwindow != "quit"){
-    if (nextwindow == "main") enter_main();
+    if      (nextwindow == "main")      enter_main();
     else if (nextwindow == "highscore") enter_highscore();
-    else if (nextwindow == "game") enter_game();
+    else if (nextwindow == "game")      enter_game();
   }
 }
 
