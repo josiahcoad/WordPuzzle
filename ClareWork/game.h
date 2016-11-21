@@ -6,7 +6,10 @@
 #include <string>
 #include <cmath>
 #include <FL/Fl_Button.H>
+#include "PlayerList.h"
 
+#ifndef GAME_H
+#define GAME_H
 
 using namespace Graph_lib;
 using namespace std;
@@ -17,10 +20,10 @@ struct game_window : public Graph_lib::Window {
                   int w,
                   int h,
                   const string& title, 
-                  string& nw);
+                  PlayerList& p);
       private:
             // member variables
-            string& nextwindow;
+            PlayerList& players;
             string currentword;
             vector<string> words;
             int totalscore;
@@ -88,9 +91,9 @@ void game_window::makematrix(int size){
       }
 }
 //constructor:
-game_window::game_window(Point xy, int w, int h, const string& title, string& nw):
+game_window::game_window(Point xy, int w, int h, const string& title, PlayerList& p):
 //initialization
-nextwindow(nw),
+players(p),
 Window(xy,w,h,title),
 enter_button(
       Point(500,100),
@@ -235,7 +238,8 @@ void game_window::fivepressed()
 }
 
 void game_window::quit() {
- nextwindow = "main";
+  string currentplayer = "Josiah Coad";
+  players[currentplayer].addscore(totalscore);
   hide();                   // FLTK idiom for delete window
 }
 void game_window::matrixpressed(Fl_Button* button)
@@ -277,3 +281,5 @@ void game_window::cb_matrixstuff(Address flbp, Address pw)
 {
       reference_to<game_window>(pw).matrixpressed((Fl_Button*)flbp);
 }
+
+#endif

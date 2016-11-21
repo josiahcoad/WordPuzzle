@@ -1,5 +1,8 @@
 #include "std_lib_facilities_4.h"
 
+#ifndef PLAYER_H
+#define PLAYER_H
+
 struct Player{
 	Player(){} // allows an empty initialization of this class
 	Player(string name,
@@ -34,3 +37,5 @@ struct Player{
 	int topscore;
 	vector<int> scores;
 };
+
+#endif

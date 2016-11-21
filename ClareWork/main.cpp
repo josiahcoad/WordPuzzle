@@ -1,15 +1,14 @@
 #include "game.h"
 #include "highscore.h"
 #include "megan_project.h"
-// #include "PlayerList.h"
+#include "PlayerList.h"
 
 string nextwindow="main";
 
 
-int enter_game(){
-   game_window win(Point(100,100),600,400,"game window", nextwindow);
-   nextwindow = "main";
-   return gui_main();
+int enter_main(){
+  Main_window win(Point(100,100),600,400,"Word Puzzle", nextwindow);
+  return gui_main();
 }
 
 int enter_highscore(){
@@ -18,18 +17,19 @@ int enter_highscore(){
 	return gui_main();	
 }
 
-int enter_main(){
-  Main_window win(Point(100,100),600,400,"Word Puzzle", nextwindow);
-  return gui_main();
+int enter_game(PlayerList& players){
+   game_window win(Point(100,100),600,400,"game window", players);
+   nextwindow = "main";
+   return gui_main();
 }
 
 
 int main(){
-  // PlayersList players("players.txt");
+  PlayerList players("players.txt");
   while (nextwindow != "quit"){
     if      (nextwindow == "main")      enter_main();
     else if (nextwindow == "highscore") enter_highscore();
-    else if (nextwindow == "game")      enter_game();
+    else if (nextwindow == "game")      enter_game(players);
   }
 }
 

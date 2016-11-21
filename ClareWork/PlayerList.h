@@ -1,6 +1,9 @@
 #include "std_lib_facilities_4.h"
 #include "Player.h"
 
+#ifndef PLAYER_LIST_H
+#define PLAYER_LIST_H
+
 // use to make a string out a vector of ints
 // only used by the output overrider to write a vector of ints back to the file
 ostream& operator<<(ostream& os, vector<int> vi){
@@ -24,13 +27,16 @@ ostream& operator<<(ostream& os, vector<Player> players){
 // 	return (operator<<(ostream& os, vector<Player> players))
 // }
 
-struct PlayersList{
+struct PlayerList{
 	// constructor reads data from file
-	PlayersList(string import_filename){
+	PlayerList(string import_filename){
 		datafile = import_filename; // used later for writing back to the file
 		readfile(import_filename); 
 	}
-	~PlayersList(){
+	// constructor for initializing empty
+	PlayerList(){}
+
+	~PlayerList(){
 		writefile();
 	}
 
@@ -56,7 +62,7 @@ struct PlayersList{
 /* To Read Files */
 // makes a vector of ints from a space seperated string
 // used to get a player's scores from a line in the file
-vector<int> PlayersList::mk_vector(const string& scores_s){
+vector<int> PlayerList::mk_vector(const string& scores_s){
    vector<int> scores;
 	istringstream scores_ss(scores_s);
 	int score;
@@ -67,7 +73,7 @@ vector<int> PlayersList::mk_vector(const string& scores_s){
 }
 
 
-void PlayersList::readfile(string filename){
+void PlayerList::readfile(string filename){
 	// get info from file
 	ifstream is(filename);
 	if (!is) error("There is no such file in the current folder.");
@@ -90,7 +96,7 @@ void PlayersList::readfile(string filename){
 /*-------------------------------------------------------------------------------*/
 /* To Write to Files */
 
-void PlayersList::writefile(){
+void PlayerList::writefile(){
    // write updated info back to file
 	cout << "\n\n";
 	cout << "......Exported Players......\n";
@@ -104,20 +110,20 @@ void PlayersList::writefile(){
 /*-------------------------------------------------------------------------------*/
 // adds a player with a name, path to their picture and an empty vector of scores
 // returns the index of the player searched by name
-Player& PlayersList::operator[](string name){
+Player& PlayerList::operator[](string name){
 	for (int i = 0; i < players.size(); ++i)
 		if (name == players[i].get_name()) return players[i];
 	error("Not found by that name.");
 }
 
-bool PlayersList::exists(string name){
+bool PlayerList::exists(string name){
 	for (Player p : players)
 		if (name == p.get_name()) return true;
 	return false;
 }
 
 
-Player PlayersList::get_highest_scorer(){
+Player PlayerList::get_highest_scorer(){
 	int highscore = 0;
 	for (Player p : players)
 		if (p.get_topscore() > highscore)
@@ -127,9 +133,11 @@ Player PlayersList::get_highest_scorer(){
 	error("There is no highscore.");
 }
 
-void PlayersList::add(string name, string picturepath="missing.png"){
+void PlayerList::add(string name, string picturepath="missing.png"){
 	// if (exists(name)) error(name + " already added.");
-	if (exists(name)) players[name].update_picture();
+	// if (exists(name)) players[name].update_picture();
 	Player p(name, picturepath, {}); // player starts out with no scores
 	players.push_back(p);
 }
+
+#endif
