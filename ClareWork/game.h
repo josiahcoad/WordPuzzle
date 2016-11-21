@@ -6,6 +6,8 @@
 #include <string>
 #include <cmath>
 #include <FL/Fl_Button.H>
+
+
 using namespace Graph_lib;
 using namespace std;
 
@@ -14,9 +16,11 @@ struct game_window : public Graph_lib::Window {
       game_window(Point xy,
                   int w,
                   int h,
-                  const string& title);
+                  const string& title, 
+                  string& nw);
       private:
             // member variables
+            string& nextwindow;
             string currentword;
             vector<string> words;
             int totalscore;
@@ -84,8 +88,9 @@ void game_window::makematrix(int size){
       }
 }
 //constructor:
-game_window::game_window(Point xy, int w, int h, const string& title):
+game_window::game_window(Point xy, int w, int h, const string& title, string& nw):
 //initialization
+nextwindow(nw),
 Window(xy,w,h,title),
 enter_button(
       Point(500,100),
@@ -171,6 +176,9 @@ void game_window::donepressed()
 void game_window::enterpressed()
 {
       int points = checkword(currentword);
+      if (points == 0)  // it was not a word
+            // replace buttons
+      else last_pressed = [];// clear vector of buttons pressed
       totalscore += points;
       lastwordbox.put(to_string(points));
       totalscorebox.put(to_string(totalscore));
@@ -221,6 +229,7 @@ void game_window::fivepressed()
 }
 
 void game_window::quit() {
+ nextwindow = "main";
   hide();                   // FLTK idiom for delete window
 }
 void game_window::matrixpressed(Fl_Button* button)
@@ -262,34 +271,3 @@ void game_window::cb_matrixstuff(Address flbp, Address pw)
 {
       reference_to<game_window>(pw).matrixpressed((Fl_Button*)flbp);
 }
-
-
-int enter_game(){
-      game_window win(Point(100,100),600,400,"game window");
-      cout << ".. is this a problem that the screen doesn't go away?";
-      return gui_main();
-}
-
-int main(){
-      string ready;
-      cout << "press any key and enter to open: ";
-      cin >> ready;
-      enter_game();
-      cout << "cool. press any key and enter to exit: ";
-      cin >> ready;
-}
-/*
-int main(){
-      try{
-            
-      }
-      catch(exception& e){
-            cerr<<"exception: "<<e.what()<<'\n';
-            return 1;
-      }
-      catch(...){
-            cerr<<"some exception\n";
-            return 2;
-      }
-}
-*/
