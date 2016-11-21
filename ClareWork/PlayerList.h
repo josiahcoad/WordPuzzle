@@ -129,7 +129,7 @@ Player PlayersList::get_highest_scorer(){
 
 void PlayersList::add(string name, string picturepath="missing.png"){
 	// if (exists(name)) error(name + " already added.");
-	// if (exists(name)) players[name].update_picture();
+	if (exists(name)) players[name].update_picture();
 	Player p(name, picturepath, {}); // player starts out with no scores
 	players.push_back(p);
 }
