@@ -177,8 +177,11 @@ void game_window::enterpressed()
 {
       int points = checkword(currentword);
       if (points == 0)  // it was not a word
-            // replace buttons
-      else last_pressed = [];// clear vector of buttons pressed
+            while (last_pressed.size() > 0){ // replace buttons
+                  last_pressed[last_pressed.size()-1]->show();
+                  last_pressed.pop_back();
+            }
+      else last_pressed.clear();// clear vector of buttons pressed
       totalscore += points;
       lastwordbox.put(to_string(points));
       totalscorebox.put(to_string(totalscore));
@@ -199,16 +202,19 @@ int game_window::checkword(string word){
 }
 
 bool game_window::isword(string word){
-      for (string w : words) {
+      for (string w : words)
             if (word == w) return true;
-      }
       return false;
 }
 
 void game_window::backspacepressed(){
+      if (last_pressed.size() <= 0) return;
+      // this removes the last letter of the word
       currentword = currentword.substr(0, currentword.size()-1);
       currentwordbox.put(currentword);
+      // this shows the button again
       last_pressed[last_pressed.size()-1]->show();
+      // this removes the last button from the list
       last_pressed.pop_back();
 
 }
