@@ -20,7 +20,7 @@ struct Highscore_window : public Graph_lib::Window {
   Text t;
   Text score;
   Image ii;
-  //Image ij;
+  Image ij;
    static void cb_main(Address, Address pw);
 };
 
@@ -40,16 +40,21 @@ score(
 ii(
       Point(125,10),
       "highscore.jpg"
+),
+ij(
+      Point(300,240),
+      "missing.jpeg"
 )
 {
       attach(main_button);
       attach(t);
       attach(score);
       attach(ii);
+      ij.resize(50,50);
+      attach(ij);
 
 }
 void Highscore_window::cb_main(Address, Address pw)
 {
   reference_to<game_window>(pw).hide();
 }
-
