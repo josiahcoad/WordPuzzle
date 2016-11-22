@@ -1,8 +1,12 @@
-Josiah Coad
-mypath/mypicture
-13 44 22 25 0 0 
-newguy
-newpicture
 
-hey there
-missing.png
+
+
+Josiah
+will.jpg
+6 
+Jack
+missing.jpeg
+0 
+jessamy
+will.jpg
+4 13 0 

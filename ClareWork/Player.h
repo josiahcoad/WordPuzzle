@@ -15,6 +15,8 @@ struct Player{
 		set_topscore();
 	}
 	// convenience functions 
+	void set_name(string name){ this -> name = name; }
+	void set_picture(string picturepath){ this -> picturepath = picturepath; }
 	string get_name() { return name; }
 	string get_picturepath() { return picturepath; }
 	int get_topscore() { return topscore; }

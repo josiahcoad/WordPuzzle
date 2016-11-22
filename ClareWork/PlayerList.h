@@ -43,13 +43,22 @@ struct PlayerList{
 	
 	Player& operator[](string name);
 	Player get_highest_scorer();
-	void add(string name, string picturepath);
+	void add(string name, int init_score, string picturepath);
+	bool exists(string name);
+
+	string current_name;
+	Player current;
+
+	// picture path
 	
+	// for if the user doesn't provide a picture
+	string missing_pic = "missing.jpeg";
+
 	private:
 	vector<int> mk_vector(const string& scores_s);
 	void readfile(string filename);
 	void writefile();
-	bool exists(string name);
+	
 
 	string datafile;
 	Player highest_scorer;
@@ -125,19 +134,21 @@ bool PlayerList::exists(string name){
 
 Player PlayerList::get_highest_scorer(){
 	int highscore = 0;
+	Player highest_scorer("No Highest Scorer!", "missing.jpeg", {});
 	for (Player p : players)
 		if (p.get_topscore() > highscore)
 			highest_scorer = p;
-
-	if (highscore > 0) return highest_scorer;
-	error("There is no highscore.");
+	cout << "highest_scorer is " << highest_scorer.get_name() 
+			<< " with a score of " << highest_scorer.get_topscore() << endl;
+	return highest_scorer;
 }
 
-void PlayerList::add(string name, string picturepath="missing.png"){
+void PlayerList::add(string name, int init_score, string picturepath="missing.jpeg"){
 	// if (exists(name)) error(name + " already added.");
 	// if (exists(name)) players[name].update_picture();
-	Player p(name, picturepath, {}); // player starts out with no scores
+	Player p(name, picturepath, {init_score}); // player starts out with first score
 	players.push_back(p);
+	cout << name << " successfully added.\n";
 }
 
 #endif

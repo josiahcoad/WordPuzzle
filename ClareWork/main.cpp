@@ -6,13 +6,13 @@
 string nextwindow="main";
 
 
-int enter_main(){
-  Main_window win(Point(100,100),600,400,"Word Puzzle", nextwindow);
+int enter_main(PlayerList& players){
+  Main_window win(Point(100,100),600,400,"Word Puzzle", nextwindow, players);
   return gui_main();
 }
 
-int enter_highscore(){
-	Highscore_window win(Point(100,100),600,400,"High score!");
+int enter_highscore(PlayerList& players){
+	Highscore_window win(Point(100,100),600,400,"High score!", players);
   nextwindow = "main";
 	return gui_main();	
 }
@@ -27,8 +27,8 @@ int enter_game(PlayerList& players){
 int main(){
   PlayerList players("players.txt");
   while (nextwindow != "quit"){
-    if      (nextwindow == "main")      enter_main();
-    else if (nextwindow == "highscore") enter_highscore();
+    if      (nextwindow == "main")      enter_main(players);
+    else if (nextwindow == "highscore") enter_highscore(players);
     else if (nextwindow == "game")      enter_game(players);
   }
 }

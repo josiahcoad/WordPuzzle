@@ -36,6 +36,7 @@ struct game_window : public Graph_lib::Window {
             Button backtomenu;
             Menu matrixsize;
             Text greeting;
+            Image userpicture;
             Text feedbackmsg;
             Out_box currentwordbox;
             Out_box lastwordbox;
@@ -122,7 +123,10 @@ matrixsize(
       "size"),
 greeting(
       Point(10,20),
-      "Hello,"),
+      "GAME ON, " + players.current.get_name()),
+userpicture(
+      Point(200,05),
+      players.current.get_picturepath()),
 currentwordbox(
       Point(450,10),
       100, 20,
@@ -145,17 +149,23 @@ totalscorebox(
       attach(backspace_button);
       attach(backtomenu);
       backtomenu.hide();
+      greeting.set_font(FL_TIMES_BOLD_ITALIC);
+      greeting.set_font_size(15);
       attach(greeting);
+      userpicture.resize(40,40);
+      attach(userpicture);
       attach(currentwordbox);
       attach(feedbackmsg);
       attach(lastwordbox);
       attach(totalscorebox);
+      // these buttons allow the user to pick bet
       matrixsize.attach(new Button(Point(0,0),0,0,"3x3",cb_3x3));
       matrixsize.attach(new Button(Point(0,0),0,0,"4x4",cb_4x4));
       matrixsize.attach(new Button(Point(0,0),0,0,"5x5",cb_5x5));
       attach(matrixsize);
       readfile("dictionary.txt");
       totalscore = 0; 
+      cout << "Game Window constructed.\n";
 }
 
 void game_window::readfile(string filename){
@@ -236,11 +246,21 @@ void game_window::fivepressed()
       matrixsize.hide();
       makematrix(5);
 }
-
-void game_window::quit() {
-  string currentplayer = "Josiah Coad";
-  players[currentplayer].addscore(totalscore);
-  hide();                   // FLTK idiom for delete window
+void game_window::quit()
+{
+      string currentplayer = players.current.get_name();
+      string picture = players.current.get_picturepath();
+      // if the player exists, add the totalscore to their scores
+      if (players.exists(currentplayer)) {
+            players[currentplayer].addscore(totalscore);
+            // if the user inputted a new picturepath, update it
+            if (picture != players.missing_pic)
+                  players[currentplayer].set_picture(picture);
+      }
+      else // if the player didn't exist in system, add the player
+            players.add(currentplayer, totalscore, picture);
+      
+      hide();
 }
 void game_window::matrixpressed(Fl_Button* button)
 {

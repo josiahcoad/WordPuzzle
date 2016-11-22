@@ -10,19 +10,13 @@
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
 #include <math.h>
-// #include "Graph.cpp"
 #include "Graph.h"
-// #include "GUI.cpp"
 #include "GUI.h"
 #include "Point.h"
-// #include "Window.cpp"
+
 #include "Window.h"
 #include "std_lib_facilities_4.h"
-// #include "Simple_window.cpp"
-// #include "Simple_window.h"
-
-//using namespace Graph_lib;
-//using namespace std;
+#include "PlayerList.h"
 
 //---------------------------------------------------------
 // define a struct that is a window in which shapes can be
@@ -35,11 +29,13 @@ struct Main_window :Graph_lib:: Window {       // inherits from Window
                   int w,                // width
                   int h,                // height
                   const string& title, // label
-                  string& nw);
+                  string& nw,
+                  PlayerList& p);
 
 private:
 //    data members
 	string& nextwindow;
+	PlayerList& players;
 //    string current_shape;
 //    Color current_color;
 //    Vector_ref<Shape> myshapes;
@@ -77,15 +73,23 @@ private:
 		attach(user_name);
 		attach(profile_image);
 		attach(enter_game_button);
-		attach(info_header);
-		//todo: show text on screen
+		info_header.resize(x_max(), 200);
+		attach(info_header); // too big...
 	}
 
 	void  enter_game() {
-		string x = user_name.get_string();
-		string y = profile_image.get_string();
-		hide_info_page();
-		show_game_screen();
+		string name_input = user_name.get_string();
+		players.current.set_name(name_input);
+		string image_input = profile_image.get_string();
+		if (image_input == "")
+			if (!players.exists(name_input))
+				players.current.set_picture(players.missing_pic);
+			else
+				players.current.set_picture(players[name_input].get_picturepath());
+		else
+			players.current.set_picture(image_input);
+		nextwindow = "game";
+		hide();
 	}
 	
 	void view_high_score_pressed() {
@@ -95,10 +99,7 @@ private:
 	
 
 	void show_high_score_page() {
-		//josiah's part
-		//attach(back_main_button);
 		nextwindow = "highscore";
-
 		hide();
 	}
 	
@@ -108,14 +109,7 @@ private:
 		profile_image.hide();
 		detach(info_header);
 	}
-	
-	void show_game_screen() {
-		nextwindow = "game";
-		hide();
-		//clare's part
-		// attach(finish_game_button); //may need to get rid of
-	}
-	
+		
 	void finish_game_pressed() {
 		hide_game_screen();
 		show_main_menu();
@@ -132,6 +126,7 @@ private:
 	}
 	
 	void show_main_menu() {
+		header.resize(x_max(), 200);
 		attach(header);
 		enter_info_page_button.show();
 		quit_button.show();
@@ -162,60 +157,61 @@ private:
 
 // constructor:
 
-Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw) :
+Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw, PlayerList& p) :
+		  players(p),
 		  nextwindow(nw),
 // initialization - start by calling constructor of base class
         Window(xy, w, h, title),
 
 // initialize the enter info page button
         enter_info_page_button(
-                Point(225, 175),   // location of button
+                Point(225, 220),   // location of button
                 150, 20,                 // dimensions of button
                 "New Game",           // label of button
                 cb_enter_info_page),               // callback function for button
 // initialize quit button
         quit_button(
-                Point(225, 325),   // location of button
+                Point(225, 340),   // location of button
                 150, 20,                 // dimensions of button
                 "Quit",                 // label of button
                 cb_quit),               // callback function for button
 //initialize the view high score button
 	   view_high_score_button(
-                Point(225, 250),   // location of button
+                Point(225, 280),   // location of button
                 150, 20,                   // dimensions of button
                 "View highest score",           // label of button
                 cb_view_high_score),               // callback function for button				
 // initialize the inbox
         user_name(
-                Point(225, 100),       // location of box
+                Point(225, 220),       // location of box
                 150, 20,                     // dimensions of box
                 "User Name:"),                 // label of box
 // initialize the profile picture inbox
         profile_image(
-                Point(225, 200),       // location of box
+                Point(225, 280),       // location of box
                 150, 20,                     // dimensions of box
                 "Profile image:"),                 // label of box
 		enter_game_button(
-                Point(225, 300),   // location of button
+                Point(225, 340),   // location of button
                 150, 20,                   // dimensions of button
                 "Start Game",           // label of button
                 cb_enter_game),               // callback function for button
 		back_main_button(
-				Point(225,300),
+				Point(225,380),
 				150,20,
 				"Back to Main Menu",
 				cb_back_main),
 		finish_game_button(
-				Point(225,300),
+				Point(225,380),
 				150,20,
 				"Back to Main Menu",
 				cb_finish_game),
 		header(
-				Point(130,50),
+				Point(0,0),
 				"word_header.jpg"),
 		info_header
 			(
-			Point(100,40),
+			Point(0,0),
 			"enter_user_header.jpg")
 			
 
@@ -226,6 +222,7 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
     attach(enter_info_page_button);
 	attach(view_high_score_button);
     attach(quit_button);
+    header.resize(x_max(), 200);
 	attach(header);
 	//attach(header);
 
