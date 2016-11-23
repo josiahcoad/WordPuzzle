@@ -1,0 +1,58 @@
+-- add some fonts to the game!
+
+class Font {       // character font
+	public:
+	enum Font_type {
+	  helvetica=FL_HELVETICA,
+	  helvetica_bold=FL_HELVETICA_BOLD,
+	  helvetica_italic=FL_HELVETICA_ITALIC,
+	  helvetica_bold_italic=FL_HELVETICA_BOLD_ITALIC,
+	  courier=FL_COURIER,
+	  courier_bold=FL_COURIER_BOLD,
+	  courier_italic=FL_COURIER_ITALIC,
+	  courier_bold_italic=FL_COURIER_BOLD_ITALIC,
+	  times=FL_TIMES,
+	  times_bold=FL_TIMES_BOLD,
+	  times_italic=FL_TIMES_ITALIC,
+	  times_bold_italic=FL_TIMES_BOLD_ITALIC,
+	  symbol=FL_SYMBOL,
+	  screen=FL_SCREEN,
+	  screen_bold=FL_SCREEN_BOLD,
+	  zapf_dingbats=FL_ZAPF_DINGBATS
+	};
+};
+
+-- and some colors to text!
+
+struct Color {
+	enum Color_type {
+	        red=FL_RED,
+	        blue=FL_BLUE,
+	        green=FL_GREEN,
+	        yellow=FL_YELLOW,
+	        white=FL_WHITE,
+	        black=FL_BLACK,
+	        magenta=FL_MAGENTA,
+	        cyan=FL_CYAN,
+	        dark_red=FL_DARK_RED,
+	        dark_green=FL_DARK_GREEN,
+	        dark_yellow=FL_DARK_YELLOW,
+	        dark_blue=FL_DARK_BLUE,
+	        dark_magenta=FL_DARK_MAGENTA,
+	        dark_cyan=FL_DARK_CYAN
+	};
+};
+
+-- output the current_user's top score on the high score page
+
+-- add a hard mode where user can choose to only be allowed to select letters next to eachother (and get double points for it)
+
+-- give the letters a "scrabble" type scoring system
+
+-- add an instructions page (instructions on like picture type and folder to put in, instructions on hard mode, etc.)
+
+-- add a welcome back message if the user already exists
+
+-- put all "game" pictures in a folder
+
+-- randomize color of letter buttons
