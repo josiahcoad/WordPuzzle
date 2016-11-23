@@ -4,8 +4,8 @@
 //Word Puzzle Game
 //change button to Game_Button
 //change Game_Window
-#ifndef MEGAN_PROJECT_H
-#define MEGAN_PROJECT_H
+#ifndef MAINMENU_H
+#define MAINMENU_H
 
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
@@ -13,7 +13,6 @@
 #include "Graph.h"
 #include "GUI.h"
 #include "Point.h"
-
 #include "Window.h"
 #include "std_lib_facilities_4.h"
 #include "PlayerList.h"
@@ -33,30 +32,23 @@ struct Main_window :Graph_lib:: Window {       // inherits from Window
                   PlayerList& p);
 
 private:
-//    data members
+	// data members
 	string& nextwindow;
 	PlayerList& players;
-//    string current_shape;
-//    Color current_color;
-//    Vector_ref<Shape> myshapes;
 
-//    widgets:
-//    Button next_button;        // button indicating next point is ready
+	// widgets for Main Page
 	Button enter_info_page_button;
 	Button view_high_score_button;
-    Button quit_button;                // end program
+   Button quit_button;
 	Image header;
+
+	// widgets for Info Page
 	Image info_header;
-	//TODO: add to constructor
-	
 	In_box user_name;
 	In_box profile_image;
 	Button enter_game_button;
 	
-	Button back_main_button;
-	Button finish_game_button;
-	
-    // actions invoked by callbacks:
+   // actions invoked by callbacks:
 	void enter_info_page_pressed() {
 		hide_main_menu();
 		show_info_page();
@@ -127,21 +119,6 @@ private:
 		profile_image.hide();
 		detach(info_header);
 	}
-		
-	void finish_game_pressed() {
-		hide_game_screen();
-		show_main_menu();
-	}
-	
-	void hide_game_screen() {
-		//hide clare's part
-		finish_game_button.hide();
-	}
-	
-	void back_to_main_menu_pressed() {
-		show_main_menu();
-		hide_high_scores_page();
-	}
 	
 	void show_main_menu() {
 		header.resize(x_max(), 200);
@@ -149,12 +126,6 @@ private:
 		enter_info_page_button.show();
 		quit_button.show();
 		view_high_score_button.show();
-	}
-	
-	void hide_high_scores_page() {
-		//hide josiah's part
-		back_main_button.hide();
-		
 	}
 	
 //	void enter_game();
@@ -165,122 +136,89 @@ private:
   static void cb_view_high_score(Address, Address);
   static void cb_quit(Address, Address);
   static void cb_enter_game(Address, Address);
-  static void cb_back_main(Address, Address);
-  static void cb_finish_game(Address, Address);
 };
 
-// ----------------------------------------------------------
-// now define the parts of Main_window that were only declared
-// inside the class
-
 // constructor:
-
 Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw, PlayerList& p) :
 		  players(p),
 		  nextwindow(nw),
 // initialization - start by calling constructor of base class
         Window(xy, w, h, title),
 
-// initialize the enter info page button
+// Button for entering the Info Page (on the Main Page)
         enter_info_page_button(
-                Point(225, 220),   // location of button
-                150, 20,                 // dimensions of button
+                Point(225, 220),      // location of button
+                150, 20,              // dimensions of button
                 "New Game",           // label of button
-                cb_enter_info_page),               // callback function for button
-// initialize quit button
-        quit_button(
-                Point(225, 340),   // location of button
-                150, 20,                 // dimensions of button
-                "Quit",                 // label of button
-                cb_quit),               // callback function for button
-//initialize the view high score button
+                cb_enter_info_page),  // callback function for button
+// Button for entering the highscore page (on the Main Page)
 	   view_high_score_button(
-                Point(225, 280),   // location of button
-                150, 20,                   // dimensions of button
-                "View highest score",           // label of button
-                cb_view_high_score),               // callback function for button				
-// initialize the inbox
+                Point(225, 280),
+                150, 20,        
+                "View highest score",
+                cb_view_high_score),
+// Button for quiting the game (on the Main Page)
+        quit_button(
+                Point(225, 340),
+                150, 20,        
+                "Quit",         
+                cb_quit),       
+// In box for inputting name (on Info Page)
         user_name(
-                Point(225, 220),       // location of box
-                150, 20,                     // dimensions of box
-                "User Name:"),                 // label of box
-// initialize the profile picture inbox
+                Point(225, 220),
+                150, 20,        
+                "User Name:"),  
+// In box for inputting the user picture name (on the Info Page)
         profile_image(
-                Point(225, 280),       // location of box
-                150, 20,                     // dimensions of box
-                "Profile image:"),                 // label of box
+                Point(225, 280),
+                150, 20,        
+                "Profile image:"),
+// Button for entering the Game Page (on the Info Page)
 		enter_game_button(
-                Point(225, 340),   // location of button
-                150, 20,                   // dimensions of button
-                "Start Game",           // label of button
-                cb_enter_game),               // callback function for button
-		back_main_button(
-				Point(225,380),
-				150,20,
-				"Back to Main Menu",
-				cb_back_main),
-		finish_game_button(
-				Point(225,380),
-				150,20,
-				"Back to Main Menu",
-				cb_finish_game),
+                Point(225, 340),  
+                150, 20,          
+                "Start Game",     
+                cb_enter_game),   
+// Banner picture (on Main Page)
 		header(
 				Point(0,0),
 				"word_header.jpg"),
-		info_header
-			(
+// Banner pictuer (on Info Page)
+		info_header(
 			Point(0,0),
 			"enter_user_header.jpg")
 			
 
-				
-// body of constructor follows
+// Body of constructor... attaches objects
 {
-    // attach buttons and boxes to window
-    attach(enter_info_page_button);
+   attach(enter_info_page_button);
 	attach(view_high_score_button);
-    attach(quit_button);
-    header.resize(x_max(), 200);
+   attach(quit_button);
+   header.resize(x_max(), 200);
 	attach(header);
-	//attach(header);
-
-    //  attach(xy_out);
-    //  xy_out.put("no point");        // output to out box
 }
 
-// ----------------------------
-// callback function for button - boilerplate:
+// ......... CALLBACKS .........
+
 void Main_window::cb_enter_info_page(Address, Address pw) {
-    reference_to<Main_window>(pw).enter_info_page_pressed();   // quit is defined next
+    reference_to<Main_window>(pw).enter_info_page_pressed();
 }
 
 void Main_window::cb_view_high_score(Address, Address pw) {
-    reference_to<Main_window>(pw).view_high_score_pressed();   // quit is defined next
+    reference_to<Main_window>(pw).view_high_score_pressed();
 }
 
 void Main_window::cb_quit(Address, Address pw) {
-    reference_to<Main_window>(pw).quit();   // quit is defined next
+    reference_to<Main_window>(pw).quit();
 }
 
 void Main_window::cb_enter_game(Address, Address pw) {
-    reference_to<Main_window>(pw).enter_game();   // quit is defined next
+    reference_to<Main_window>(pw).enter_game(); 
 }
 
-void Main_window::cb_back_main(Address, Address pw) {
-    reference_to<Main_window>(pw).back_to_main_menu_pressed();   // quit is defined next
-}
-
-void Main_window::cb_finish_game(Address, Address pw) {
-    reference_to<Main_window>(pw).finish_game_pressed();   // quit is defined next
-}
-//------------------------------------
-
-
-//------------------------------------
-// what to do when quit button is pressed
 void Main_window::quit() {
 	nextwindow = "quit";
-   hide();                   // FLTK idiom for delete window
+   hide(); 
 }
 
 #endif

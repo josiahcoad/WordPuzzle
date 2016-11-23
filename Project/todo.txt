@@ -54,5 +54,3 @@ struct Color {
 -- add a welcome back message if the user already exists
 
 -- put all "game" pictures in a folder
-
--- randomize color of letter buttons

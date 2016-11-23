@@ -61,9 +61,11 @@ struct Highscore_window : public Graph_lib::Window {
         attach(main_button);
         player_name.set_font(FL_COURIER_BOLD_ITALIC);
         player_name.set_font_size(25);
+        player_name.set_color(Color::dark_magenta);
         attach(player_name);
         score.set_font_size(30);
         score.set_font(FL_HELVETICA_BOLD_ITALIC);
+        score.set_color(Color::dark_magenta);
         attach(score);
         highscore_banner.resize(x_max(),200);
         attach(highscore_banner);

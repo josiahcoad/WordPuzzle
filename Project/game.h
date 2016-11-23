@@ -151,6 +151,7 @@ totalscorebox(
       backtomenu.hide();
       greeting.set_font(FL_TIMES_BOLD_ITALIC);
       greeting.set_font_size(15);
+      greeting.set_color(Color::blue);
       attach(greeting);
       userpicture.resize(40,40);
       attach(userpicture);

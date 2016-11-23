@@ -1,6 +1,6 @@
 #include "game.h"
 #include "highscore.h"
-#include "megan_project.h"
+#include "mainmenu.h"
 #include "PlayerList.h"
 
 string nextwindow="main";
