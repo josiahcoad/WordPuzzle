@@ -1,3 +1,6 @@
+-- Bug!!!!!! Why does loading will.jpg for a new player not load the pictuer???
+
+
 -- add some fonts to the game!
 
 class Font {       // character font

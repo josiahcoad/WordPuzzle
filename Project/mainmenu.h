@@ -48,12 +48,13 @@ private:
 	In_box profile_image;
 	Button enter_game_button;
 	
-   // actions invoked by callbacks:
+   // wont need at all
 	void enter_info_page_pressed() {
 		hide_main_menu();
 		show_info_page();
 	}
 	
+	// Main - won't need this when divided
 	void hide_main_menu() {
 		enter_info_page_button.hide();
 		quit_button.hide();
@@ -61,12 +62,13 @@ private:
 		detach(header);
 	}
 	
+	// Info - will go into constructor of Info
 	void show_info_page() {
 		attach(user_name);
 		attach(profile_image);
 		attach(enter_game_button);
 		info_header.resize(x_max(), 200);
-		attach(info_header); // too big...
+		attach(info_header); 
 	}
 
 	void  enter_game() {
@@ -89,47 +91,36 @@ private:
 				players[name_input].set_picture(image_input);
 			}
 		}
+		// if no player exists...
 		else if (!players.exists(name_input))
 			// if no picture was inputted...
-			if (image_input == "")
+			if (image_input == ""){
 				// add a player with a "missing pic"
 				players.add(name_input, {}, players.missing_pic);
+				players.current.set_picture(players.missing_pic);
+			}
 			// if a picture was inputted...
-			else
+			else {
 				// add a player with the inputted picture
 				players.add(name_input, {}, image_input);
+				players.current.set_picture(image_input);
+			}
 		nextwindow = "game";
 		hide();
 	}
 	
+	// Main
 	void view_high_score_pressed() {
 		hide_main_menu();
-		show_high_score_page();
-	}
-	
-
-	void show_high_score_page() {
 		nextwindow = "highscore";
 		hide();
 	}
 	
-	void hide_info_page() {
-		enter_game_button.hide();
-		user_name.hide();
-		profile_image.hide();
-		detach(info_header);
+	// quit the entire game (Main Page)
+	void quit() {
+		nextwindow = "quit";
+	   hide(); 
 	}
-	
-	void show_main_menu() {
-		header.resize(x_max(), 200);
-		attach(header);
-		enter_info_page_button.show();
-		quit_button.show();
-		view_high_score_button.show();
-	}
-	
-//	void enter_game();
-    void quit();   // defined below
 	
   // callback functions; declared here and defined below.
   static void cb_enter_info_page(Address, Address);
@@ -138,7 +129,7 @@ private:
   static void cb_enter_game(Address, Address);
 };
 
-// constructor:
+// constructor for main 
 Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw, PlayerList& p) :
 		  players(p),
 		  nextwindow(nw),
@@ -162,7 +153,13 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
                 Point(225, 340),
                 150, 20,        
                 "Quit",         
-                cb_quit),       
+                cb_quit),
+// Banner picture (on Main Page)
+		header(
+				Point(0,0),
+				"word_header.jpg"),
+
+// ....... Info Page .......
 // In box for inputting name (on Info Page)
         user_name(
                 Point(225, 220),
@@ -179,17 +176,13 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
                 150, 20,          
                 "Start Game",     
                 cb_enter_game),   
-// Banner picture (on Main Page)
-		header(
-				Point(0,0),
-				"word_header.jpg"),
-// Banner pictuer (on Info Page)
+// Banner picture (on Info Page)
 		info_header(
 			Point(0,0),
 			"enter_user_header.jpg")
 			
 
-// Body of constructor... attaches objects
+// Body of constructor... attaches objects for Main
 {
    attach(enter_info_page_button);
 	attach(view_high_score_button);
@@ -200,25 +193,25 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
 
 // ......... CALLBACKS .........
 
+// Main
 void Main_window::cb_enter_info_page(Address, Address pw) {
     reference_to<Main_window>(pw).enter_info_page_pressed();
 }
 
+// Main
 void Main_window::cb_view_high_score(Address, Address pw) {
     reference_to<Main_window>(pw).view_high_score_pressed();
 }
 
+// Main
 void Main_window::cb_quit(Address, Address pw) {
     reference_to<Main_window>(pw).quit();
 }
 
+// Info
 void Main_window::cb_enter_game(Address, Address pw) {
     reference_to<Main_window>(pw).enter_game(); 
 }
 
-void Main_window::quit() {
-	nextwindow = "quit";
-   hide(); 
-}
 
 #endif

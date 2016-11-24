@@ -136,8 +136,6 @@ Player PlayerList::get_highest_scorer(){
 	for (Player p : players)
 		if (p.get_topscore() > highscore)
 			highest_scorer = p;
-	cout << "highest_scorer is " << highest_scorer.get_name() 
-			<< " with a score of " << highest_scorer.get_topscore() << endl;
 	return highest_scorer;
 }
 
