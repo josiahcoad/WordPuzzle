@@ -14,10 +14,10 @@ using namespace std;
 struct Highscore_window : public Graph_lib::Window {
   // constructor
   Highscore_window(Point xy,
-             int w,
-             int h,
-             const string& title,
-             PlayerList& p);
+                     int w,
+                     int h,
+                     const string& title,
+                     PlayerList& p);
 
 
   private:
@@ -61,16 +61,20 @@ profile_pic(
   // background_pic.resize(x_max(), y_max()-190);
   // attach(background_pic);
   attach(main_button);
+
   player_name.set_font(FL_COURIER_BOLD_ITALIC);
   player_name.set_font_size(25);
   player_name.set_color(Color::dark_magenta);
   attach(player_name);
+  
   score.set_font_size(30);
   score.set_font(FL_HELVETICA_BOLD_ITALIC);
   score.set_color(Color::dark_magenta);
   attach(score);
+  
   highscore_banner.resize(x_max(),200);
   attach(highscore_banner);
+  
   profile_pic.resize(100,100);
   attach(profile_pic);
 }

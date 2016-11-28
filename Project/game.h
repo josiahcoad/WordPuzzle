@@ -249,8 +249,9 @@ void Game_window::fivepressed()
 }
 void Game_window::quit()
 {
-      players.current.addscore(totalscore);
-
+      
+      // players.current.addscore(totalscore);
+      players[players.current.get_name()].addscore(totalscore);
       // string currentplayer = players.current.get_name();
       // string picture = players.current.get_picture();
       // // if the player exists, add the totalscore to their scores

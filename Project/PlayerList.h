@@ -134,8 +134,10 @@ Player PlayerList::get_highest_scorer(){
 	int highscore = 0;
 	Player highest_scorer("No Highest Scorer!", "missing.jpeg", {});
 	for (Player p : players)
-		if (p.get_topscore() > highscore)
+		if (p.get_topscore() > highscore){
 			highest_scorer = p;
+			highscore = p.get_topscore();
+		}
 	return highest_scorer;
 }
 
