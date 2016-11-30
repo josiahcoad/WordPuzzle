@@ -10,3 +10,6 @@ missing.jpeg
 jessamy
 will.jpg
 4 13 0 
+Clare
+missing.jpeg
+0 

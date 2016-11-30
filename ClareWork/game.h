@@ -19,7 +19,7 @@ struct game_window : public Graph_lib::Window {
       game_window(Point xy,
                   int w,
                   int h,
-                  const string& title, 
+                  const string& title,
                   PlayerList& p);
       private:
             // member variables
@@ -51,7 +51,7 @@ struct game_window : public Graph_lib::Window {
       static void cb_4x4(Address, Address);
       static void cb_5x5(Address, Address);
       static void cb_matrixstuff(Address, Address);
-      
+
       void readfile(string filename);
       int checkword(string word);
       bool isword(string word);
@@ -65,6 +65,9 @@ struct game_window : public Graph_lib::Window {
       void makematrix(int size);
       void matrixpressed(Fl_Button*);
 };
+//This function generates a vector of randomly chosen characters
+//Pre-conditions: an integer that will be passed in based on menu size selection
+//Post-conditions: a vector that has a certain number of characters based on n
 vector<char> getrand(int n){
       srand(time(NULL));
       vector<char> randos;
@@ -77,6 +80,11 @@ vector<char> getrand(int n){
       }
       return randos;
 }
+//This function makes a matrix of buttons using a vector of randomly generated characters
+//Pre-conditions: an integer that represents the dimensions of the matrix, will be
+//passed into the getrand function
+//Post-conditions: when the function is called later in the program, a matrix of buttons
+//is displayed
 void game_window::makematrix(int size){
       vector<char> newvec=getrand(size);
       int x=0;
@@ -164,15 +172,18 @@ totalscorebox(
       matrixsize.attach(new Button(Point(0,0),0,0,"5x5",cb_5x5));
       attach(matrixsize);
       readfile("dictionary.txt");
-      totalscore = 0; 
+      totalscore = 0;
       cout << "Game Window constructed.\n";
 }
 
+//This function reads a file and make sure the file exists
+//Pre-conditions: pass in a string
+//Post-conditions: allows the program to read in a file name
 void game_window::readfile(string filename){
       // get info from file
       ifstream is(filename);
       if (!is) error("There is no such file in the current folder.");
-      
+
       string word;
       while (!is.eof()){
             getline(is, word);
@@ -186,6 +197,8 @@ void game_window::donepressed()
 {
       backtomenu.show();
 }
+//This funtion is called whenever the enter button is pressed. It checks to make
+//sure the current word entered is a word. 
 void game_window::enterpressed()
 {
       int points = checkword(currentword);
@@ -259,7 +272,7 @@ void game_window::quit()
       }
       else // if the player didn't exist in system, add the player
             players.add(currentplayer, totalscore, picture);
-      
+
       hide();
 }
 void game_window::matrixpressed(Fl_Button* button)
