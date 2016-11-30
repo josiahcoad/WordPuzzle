@@ -12,16 +12,4 @@ missing.jpeg
 0 4 
 Meg
 will.jpg
-0 7 
-dk
-asdf
-0 0 
-asd
-missing.jpeg
-0 
-New Player
-missing.jpeg
-0 3 
-jake
-./profile_pics/missing.jpeg
-0 0 
+0 7
