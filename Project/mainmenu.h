@@ -1,9 +1,14 @@
-// Author: Megan Grahmann, Josiah Coad and Clare 
-// CSCE 121 Final Project
+/*
+ HNR CSCE 121-200, Fall 2016, Final Project
+ Author: Megan Grahmann, Clare Lamers, Josiah Coad
+ CODE DESCRIPTION: This is the code for interfacing the main menu
+*/
 
+// import guards
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+// GUI, graphics and supporting libraries
 #include "Graph.h"
 #include "GUI.h"
 #include "Point.h"
@@ -15,9 +20,10 @@
 // define a struct that is a window in which shapes can be
 // entered via a GUI
 
+// main window inherits from FLTK window
 struct Main_window :Graph_lib:: Window {       // inherits from Window
 
-    // constructor
+    // constructor decleration
     Main_window(Point xy,               // top lefthand corner
                   int w,                // width
                   int h,                // height
@@ -37,19 +43,23 @@ struct Main_window :Graph_lib:: Window {       // inherits from Window
 	Image header;
 	
 	
-	// leave this page and change nextwindow to info
+	// leave this page and change *nextwindow* to "info" 
+	// this tells main that the next window to open is info
 	void show_info_page() {
 		nextwindow = "info";
 		hide();
 	}
 
+	// leave this page and change *nextwindow* to "highscore"
+	// this tells main that the next window to open is highscore
 	void show_highscore() {
 		nextwindow = "highscore";
 		hide();
 	}
 	
-	// quit the entire game
-	void quit_game() {
+	// leave this page and change *nextwindow* to "quit"
+	// this tells main that the program should end
+		void quit_game() {
 		nextwindow = "quit";
 	   hide(); 
 	}

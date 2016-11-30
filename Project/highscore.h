@@ -1,3 +1,15 @@
+/*
+ HNR CSCE 121-200, Fall 2016, Final Project
+ Author: Megan Grahmann, Clare Lamers, Josiah Coad
+ CODE DESCRIPTION: This is the code for interfacing highscore page
+*/
+
+// import guards
+#ifndef HIGHSCORE_H
+#define HIGHSCORE_H
+
+
+// GUI, graphics and supporting libraries
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
 #include "Graph.h"     // next 3 are for graphics library
@@ -8,11 +20,10 @@
 using namespace Graph_lib;
 using namespace std;
 
-#ifndef HIGHSCORE_H
-#define HIGHSCORE_H
 
+// highscore window inherits from FLTK window
 struct Highscore_window : public Graph_lib::Window {
-  // constructor
+  // constructor decleration
   Highscore_window(Point xy,
                      int w,
                      int h,
@@ -21,8 +32,10 @@ struct Highscore_window : public Graph_lib::Window {
 
 
   private:
+  // reference to list of players for the game session
   PlayerList& players;
   
+  // widgets for highscore Page
   Image background_pic;
   Text player_name;
   Text score;
@@ -30,9 +43,11 @@ struct Highscore_window : public Graph_lib::Window {
   Image profile_pic;
   Button main_button;
 
+  // callback for enter main menu button
   static void cb_main(Address, Address pw);
 };
 
+// constructor for the Info window
 Highscore_window::Highscore_window(Point xy, int w, int h, const string& title, PlayerList& p):
 players(p),
 Window(xy,w,h,title),

@@ -1,9 +1,14 @@
-// Author: Megan Grahmann, Josiah Coad and Clare 
-// CSCE 121 Final Project
+/*
+ HNR CSCE 121-200, Fall 2016, Final Project
+ Author: Megan Grahmann, Clare Lamers, Josiah Coad
+ CODE DESCRIPTION: This is the code for interfacing the info page
+*/
 
+// import guards
 #ifndef INFO_H
 #define INFO_H
 
+// GUI, graphics and supporting libraries
 #include "Graph.h"
 #include "GUI.h"
 #include "Point.h"
@@ -12,9 +17,10 @@
 #include "PlayerList.h"
 
 
+// info window inherits from FLTK window
 struct Info_window:Graph_lib:: Window {       // inherits from Window
 
-    // constructor
+    // constructor decleration
     Info_window(Point xy,               // top lefthand corner
                   int w,                // width
                   int h,                // height
@@ -22,7 +28,7 @@ struct Info_window:Graph_lib:: Window {       // inherits from Window
                   PlayerList& p);
 
 	private:
-	// data members
+	// reference to list of players for the game session
 	PlayerList& players;
 
 	// widgets for Info Page
@@ -31,7 +37,7 @@ struct Info_window:Graph_lib:: Window {       // inherits from Window
 	In_box profile_image;
 	Button enter_game_button;
 
-	// member function
+	// gets the input from the inboxes and quits window
 	void enter_game() {
 		get_input();
 		hide();
@@ -41,7 +47,7 @@ struct Info_window:Graph_lib:: Window {       // inherits from Window
 	void get_input();
 
 
-	// callback to enter game
+	// callback to for enter game button
 	static void cb_enter_game(Address, Address pw) {
 		reference_to<Info_window>(pw).enter_game(); 
 	}
@@ -85,12 +91,14 @@ Info_window::Info_window(Point xy, int w, int h, const string& title, PlayerList
 
 
 // this was too long to include in the class 
-// it handles setting the current player's picture and name
+// it handles setting the current player's picture and name.
 // it will add the player if needed or if they already exist,
 // it will get their info.
 void Info_window::get_input(){
 	string name_input = user_name.get_string();
 	if (name_input=="") name_input = "John Smith";
+	if (name_input.size() > 12)
+		name_input = name_input.substr(0, 13);
 	players.current.set_name(name_input);
 	string image_input = profile_image.get_string();
 	if (players.exists(name_input)){
