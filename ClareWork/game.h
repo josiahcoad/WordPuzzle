@@ -66,8 +66,6 @@ struct game_window : public Graph_lib::Window {
       void matrixpressed(Fl_Button*);
 };
 //This function generates a vector of randomly chosen characters
-//Pre-conditions: an integer that will be passed in based on menu size selection
-//Post-conditions: a vector that has a certain number of characters based on n
 vector<char> getrand(int n){
       srand(time(NULL));
       vector<char> randos;
@@ -81,10 +79,6 @@ vector<char> getrand(int n){
       return randos;
 }
 //This function makes a matrix of buttons using a vector of randomly generated characters
-//Pre-conditions: an integer that represents the dimensions of the matrix, will be
-//passed into the getrand function
-//Post-conditions: when the function is called later in the program, a matrix of buttons
-//is displayed
 void game_window::makematrix(int size){
       vector<char> newvec=getrand(size);
       int x=0;
@@ -177,8 +171,6 @@ totalscorebox(
 }
 
 //This function reads a file and make sure the file exists
-//Pre-conditions: pass in a string
-//Post-conditions: allows the program to read in a file name
 void game_window::readfile(string filename){
       // get info from file
       ifstream is(filename);
@@ -197,8 +189,9 @@ void game_window::donepressed()
 {
       backtomenu.show();
 }
-//This funtion is called whenever the enter button is pressed. It checks to make
-//sure the current word entered is a word. 
+//This funtion is called whenever the enter button is pressed. If the word exists,
+//the score is updated and the outbox is cleared. If it does not exist, the buttons
+//are replaced.
 void game_window::enterpressed()
 {
       int points = checkword(currentword);
@@ -218,6 +211,7 @@ void game_window::enterpressed()
       // feedbackmsg.show();
       // label isn't changing...
 }
+//This function gives a word a score based on its size if it exists.
 int game_window::checkword(string word){
       if (isword(currentword)){
             // one point per letter
@@ -227,12 +221,16 @@ int game_window::checkword(string word){
       return 0;
 }
 
-bool game_window::isword(string word){
-      for (string w : words)
-            if (word == w) return true;
+//This function compares the input word to each dictionary word. If it matches,
+//the function returns true.
+bool game_window::isword(string input_word){
+      for (string dict_word : words)
+            if (dict_word == input_word) return true;
       return false;
 }
 
+//This function updates the outbox whenever backspace is pressed and replaces the
+//button.
 void game_window::backspacepressed(){
       if (last_pressed.size() <= 0) return;
       // this removes the last letter of the word
@@ -243,7 +241,7 @@ void game_window::backspacepressed(){
       // this removes the last button from the list
       last_pressed.pop_back();
 }
-
+//These functions display the matrix of desired size and hides the matrix menu.
 void game_window::threepressed()
 {
       matrixsize.hide();
@@ -259,6 +257,8 @@ void game_window::fivepressed()
       matrixsize.hide();
       makematrix(5);
 }
+//This function is called whenevr the player is about to leave the game. It updates
+//or creates their picture, name and score information.
 void game_window::quit()
 {
       string currentplayer = players.current.get_name();
@@ -275,6 +275,7 @@ void game_window::quit()
 
       hide();
 }
+//This funciton allows the letter buttons to be aware of their label.
 void game_window::matrixpressed(Fl_Button* button)
 {
       string letter = button->label();
