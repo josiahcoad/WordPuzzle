@@ -14,12 +14,12 @@
 using namespace Graph_lib;
 using namespace std;
 
-struct Game_window : public Graph_lib::Window {
+struct game_window : public Graph_lib::Window {
       //constructor
-      Game_window(Point xy,
+      game_window(Point xy,
                   int w,
                   int h,
-                  const string& title, 
+                  const string& title,
                   PlayerList& p);
       private:
             // member variables
@@ -51,7 +51,7 @@ struct Game_window : public Graph_lib::Window {
       static void cb_4x4(Address, Address);
       static void cb_5x5(Address, Address);
       static void cb_matrixstuff(Address, Address);
-      
+
       void readfile(string filename);
       int checkword(string word);
       bool isword(string word);
@@ -65,6 +65,7 @@ struct Game_window : public Graph_lib::Window {
       void makematrix(int size);
       void matrixpressed(Fl_Button*);
 };
+//This function generates a vector of randomly chosen characters
 vector<char> getrand(int n){
       srand(time(NULL));
       vector<char> randos;
@@ -77,7 +78,8 @@ vector<char> getrand(int n){
       }
       return randos;
 }
-void Game_window::makematrix(int size){
+//This function makes a matrix of buttons using a vector of randomly generated characters
+void game_window::makematrix(int size){
       vector<char> newvec=getrand(size);
       int x=0;
       for (int i=1; i<=size; ++i)
@@ -92,7 +94,7 @@ void Game_window::makematrix(int size){
       }
 }
 //constructor:
-Game_window::Game_window(Point xy, int w, int h, const string& title, PlayerList& p):
+game_window::game_window(Point xy, int w, int h, const string& title, PlayerList& p):
 //initialization
 players(p),
 Window(xy,w,h,title),
@@ -151,7 +153,6 @@ totalscorebox(
       backtomenu.hide();
       greeting.set_font(FL_TIMES_BOLD_ITALIC);
       greeting.set_font_size(15);
-      greeting.set_color(Color::blue);
       attach(greeting);
       userpicture.resize(40,40);
       attach(userpicture);
@@ -165,15 +166,16 @@ totalscorebox(
       matrixsize.attach(new Button(Point(0,0),0,0,"5x5",cb_5x5));
       attach(matrixsize);
       readfile("dictionary.txt");
-      totalscore = 0; 
+      totalscore = 0;
       cout << "Game Window constructed.\n";
 }
 
-void Game_window::readfile(string filename){
+//This function reads a file and make sure the file exists
+void game_window::readfile(string filename){
       // get info from file
       ifstream is(filename);
       if (!is) error("There is no such file in the current folder.");
-      
+
       string word;
       while (!is.eof()){
             getline(is, word);
@@ -183,11 +185,14 @@ void Game_window::readfile(string filename){
       cout << words.size() << " words successfully imported...\n";
 }
 
-void Game_window::donepressed()
+void game_window::donepressed()
 {
       backtomenu.show();
 }
-void Game_window::enterpressed()
+//This funtion is called whenever the enter button is pressed. If the word exists,
+//the score is updated and the outbox is cleared. If it does not exist, the buttons
+//are replaced.
+void game_window::enterpressed()
 {
       int points = checkword(currentword);
       if (points == 0)  // it was not a word
@@ -206,7 +211,8 @@ void Game_window::enterpressed()
       // feedbackmsg.show();
       // label isn't changing...
 }
-int Game_window::checkword(string word){
+//This function gives a word a score based on its size if it exists.
+int game_window::checkword(string word){
       if (isword(currentword)){
             // one point per letter
             int points = currentword.size() * 1;
@@ -215,13 +221,17 @@ int Game_window::checkword(string word){
       return 0;
 }
 
-bool Game_window::isword(string word){
-      for (string w : words)
-            if (word == w) return true;
+//This function compares the input word to each dictionary word. If it matches,
+//the function returns true.
+bool game_window::isword(string input_word){
+      for (string dict_word : words)
+            if (dict_word == input_word) return true;
       return false;
 }
 
-void Game_window::backspacepressed(){
+//This function updates the outbox whenever backspace is pressed and replaces the
+//button.
+void game_window::backspacepressed(){
       if (last_pressed.size() <= 0) return;
       // this removes the last letter of the word
       currentword = currentword.substr(0, currentword.size()-1);
@@ -231,42 +241,42 @@ void Game_window::backspacepressed(){
       // this removes the last button from the list
       last_pressed.pop_back();
 }
-
-void Game_window::threepressed()
+//These functions display the matrix of desired size and hides the matrix menu.
+void game_window::threepressed()
 {
       matrixsize.hide();
       makematrix(3);
 }
-void Game_window::fourpressed()
+void game_window::fourpressed()
 {
       matrixsize.hide();
       makematrix(4);
 }
-void Game_window::fivepressed()
+void game_window::fivepressed()
 {
       matrixsize.hide();
       makematrix(5);
 }
-void Game_window::quit()
+//This function is called whenevr the player is about to leave the game. It updates
+//or creates their picture, name and score information.
+void game_window::quit()
 {
-      
-      // players.current.addscore(totalscore);
-      players[players.current.get_name()].addscore(totalscore);
-      // string currentplayer = players.current.get_name();
-      // string picture = players.current.get_picture();
-      // // if the player exists, add the totalscore to their scores
-      // if (players.exists(currentplayer)) {
-      //       players[currentplayer].addscore(totalscore);
-      //       // if the user inputted a new picturepath, update it
-      //       if (picture != players.missing_pic)
-      //             players[currentplayer].set_picture(picture);
-      // }
-      // else // if the player didn't exist in system, add the player
-      //       players.add(currentplayer, totalscore, picture);
-      
+      string currentplayer = players.current.get_name();
+      string picture = players.current.get_picturepath();
+      // if the player exists, add the totalscore to their scores
+      if (players.exists(currentplayer)) {
+            players[currentplayer].addscore(totalscore);
+            // if the user inputted a new picturepath, update it
+            if (picture != players.missing_pic)
+                  players[currentplayer].set_picture(picture);
+      }
+      else // if the player didn't exist in system, add the player
+            players.add(currentplayer, totalscore, picture);
+
       hide();
 }
-void Game_window::matrixpressed(Fl_Button* button)
+//This funciton allows the letter buttons to be aware of their label.
+void game_window::matrixpressed(Fl_Button* button)
 {
       string letter = button->label();
       last_pressed.push_back(button);
@@ -274,36 +284,36 @@ void Game_window::matrixpressed(Fl_Button* button)
       currentword += letter;
       currentwordbox.put(currentword);
 }
-void Game_window::cb_3x3(Address, Address pw)
+void game_window::cb_3x3(Address, Address pw)
 {
-      reference_to<Game_window>(pw).threepressed();
+      reference_to<game_window>(pw).threepressed();
 }
-void Game_window::cb_4x4(Address, Address pw)
+void game_window::cb_4x4(Address, Address pw)
 {
-      reference_to<Game_window>(pw).fourpressed();
+      reference_to<game_window>(pw).fourpressed();
 }
-void Game_window::cb_5x5(Address, Address pw)
+void game_window::cb_5x5(Address, Address pw)
 {
-      reference_to<Game_window>(pw).fivepressed();
+      reference_to<game_window>(pw).fivepressed();
 }
-void Game_window::cb_done(Address, Address pw)
+void game_window::cb_done(Address, Address pw)
 {
-      reference_to<Game_window>(pw).donepressed();
+      reference_to<game_window>(pw).donepressed();
 }
-void Game_window::cb_enter(Address, Address pw)
+void game_window::cb_enter(Address, Address pw)
 {
-      reference_to<Game_window>(pw).enterpressed();
+      reference_to<game_window>(pw).enterpressed();
 }
-void Game_window::cb_backspace(Address, Address pw){
-      reference_to<Game_window>(pw).backspacepressed();
+void game_window::cb_backspace(Address, Address pw){
+      reference_to<game_window>(pw).backspacepressed();
 }
-void Game_window::cb_back(Address, Address pw)
+void game_window::cb_back(Address, Address pw)
 {
-      reference_to<Game_window>(pw).quit();
+      reference_to<game_window>(pw).quit();
 }
-void Game_window::cb_matrixstuff(Address flbp, Address pw)
+void game_window::cb_matrixstuff(Address flbp, Address pw)
 {
-      reference_to<Game_window>(pw).matrixpressed((Fl_Button*)flbp);
+      reference_to<game_window>(pw).matrixpressed((Fl_Button*)flbp);
 }
 
 #endif
