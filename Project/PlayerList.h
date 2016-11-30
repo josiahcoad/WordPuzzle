@@ -1,6 +1,16 @@
+/*
+ HNR CSCE 121-200, Fall 2016, Final Project
+ Author: Megan Grahmann, Clare Lamers, Josiah Coad
+ CODE DESCRIPTION: This code gives backend data management
+ 						 for the list of players.
+*/
+
+// importing needed header files
 #include "std_lib_facilities_4.h"
 #include "Player.h"
 
+
+// import guards
 #ifndef PLAYER_LIST_H
 #define PLAYER_LIST_H
 
@@ -36,30 +46,37 @@ struct PlayerList{
 	// constructor for initializing empty
 	PlayerList(){}
 
+	// destructor writes back to file
 	~PlayerList(){
 		writefile();
 	}
 
 	
+	// public member functions defined below
 	Player& operator[](string name);
 	Player get_highest_scorer();
 	void add(string name, int init_score, string picture);
 	bool exists(string name);
 
-	string current_name;
+	// data for the current player that is used in a session
+	// set / changed when a new name is entered in the Info page
 	Player current;
 	
 	// for if the user doesn't provide a picture
 	string missing_pic = "missing.jpeg";
 
 	private:
+	// private member functions defined below
 	vector<int> mk_vector(const string& scores_s);
 	void readfile(string filename);
 	void writefile();
 	
 
+	// name of the file where the data is stored.
 	string datafile;
+	// highest player used on highscore page
 	Player highest_scorer;
+	// the vector that stores all the players
 	vector<Player> players;
 };
 
@@ -80,8 +97,8 @@ vector<int> PlayerList::mk_vector(const string& scores_s){
 }
 
 
+// get players from a file
 void PlayerList::readfile(string filename){
-	// get info from file
 	ifstream is(filename);
 	if (!is) error("There is no such file in the current folder.");
 	
@@ -103,8 +120,8 @@ void PlayerList::readfile(string filename){
 /*-------------------------------------------------------------------------------*/
 /* To Write to Files */
 
+// write updated info back to file
 void PlayerList::writefile(){
-   // write updated info back to file
 	cout << "\n\n";
 	cout << "......Exported Players......\n";
 	cout << players;
@@ -123,6 +140,8 @@ Player& PlayerList::operator[](string name){
 	error("Not found by that name.");
 }
 
+// returns boolean if the player already exists
+// used in info page to see if user is returning or new
 bool PlayerList::exists(string name){
 	for (Player p : players)
 		if (name == p.get_name()) return true;
@@ -130,6 +149,7 @@ bool PlayerList::exists(string name){
 }
 
 
+// used in the highscore page to get the highest scorer
 Player PlayerList::get_highest_scorer(){
 	int highscore = 0;
 	Player highest_scorer("No Highest Scorer!", "missing.jpeg", {});
@@ -141,10 +161,10 @@ Player PlayerList::get_highest_scorer(){
 	return highest_scorer;
 }
 
+// add a player to the vector of players
+// used by info page to add if user doesn't exist
 void PlayerList::add(string name, int init_score, string picture){
-	// if (exists(name)) error(name + " already added.");
-	// if (exists(name)) players[name].update_picture();
-	Player p(name, picture, {init_score}); // player starts out with first score
+	Player p(name, picture, {init_score});
 	players.push_back(p);
 	cout << name << " successfully added.\n";
 }
