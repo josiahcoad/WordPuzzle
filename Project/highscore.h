@@ -36,7 +36,6 @@ struct Highscore_window : public Graph_lib::Window {
   PlayerList& players;
   
   // widgets for highscore Page
-  Image background_pic;
   Text player_name;
   Text score;
   Image highscore_banner;
@@ -44,37 +43,40 @@ struct Highscore_window : public Graph_lib::Window {
   Button main_button;
 
   // callback for enter main menu button
-  static void cb_main(Address, Address pw);
+  static void cb_main(Address, Address pw){
+    reference_to<Highscore_window>(pw).hide();
+  }
+
 };
 
 // constructor for the Info window
 Highscore_window::Highscore_window(Point xy, int w, int h, const string& title, PlayerList& p):
 players(p),
 Window(xy,w,h,title),
+// Button for entering the Main menu
 main_button(
   Point(250,350),
   100, 20,
   "MAIN MENU",
   cb_main),
+// Text for displaying the highscore player
 player_name(
   Point(70,250),
   "Congrats " + players.get_highest_scorer().get_name()),
+// text for displaying the score
 score(
   Point(200,300),
   "Score: " + to_string(players.get_highest_scorer().get_topscore())),
+// picture for page title graphics
 highscore_banner(
   Point(0,0),
   "highscore.jpg"),
-background_pic(
-  Point(0, 190),
-  "background.jpg"),
+// Button for entering the Info Page
 profile_pic(
   Point(380,270),
   players.get_highest_scorer().get_picturepath())
+// Body of constructor... attaches objects to window
 {
-  // not using this right now because covers up button
-  // background_pic.resize(x_max(), y_max()-190);
-  // attach(background_pic);
   attach(main_button);
 
   player_name.set_font(FL_COURIER_BOLD_ITALIC);
@@ -92,10 +94,6 @@ profile_pic(
   
   profile_pic.resize(100,100);
   attach(profile_pic);
-}
-
-void Highscore_window::cb_main(Address, Address pw){
-  reference_to<Highscore_window>(pw).hide();
 }
 
 #endif

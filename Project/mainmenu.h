@@ -16,10 +16,6 @@
 #include "std_lib_facilities_4.h"
 #include "PlayerList.h"
 
-//---------------------------------------------------------
-// define a struct that is a window in which shapes can be
-// entered via a GUI
-
 // main window inherits from FLTK window
 struct Main_window :Graph_lib:: Window {       // inherits from Window
 
@@ -98,7 +94,7 @@ Main_window::Main_window(Point xy, int w, int h, const string& title, string& nw
 	header(
 		Point(0,0),
 		"word_header.jpg")
-	// Body of constructor... attaches objects to Main
+	// Body of constructor... attaches objects to window
 	{
 	   attach(enter_info_button);
 		attach(enter_highscore_button);
