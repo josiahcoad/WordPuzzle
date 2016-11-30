@@ -1,9 +1,3 @@
-/*
- HNR CSCE 121-200, Fall 2016, Final Project
- Author: Megan Grahmann, Clare Lamers, Josiah Coad
- CODE DESCRIPTION: This code is gives user interface to the game window
-*/
-
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
 #include "Graph.h"     // next 3 are for graphics library
@@ -25,7 +19,7 @@ struct Game_window : public Graph_lib::Window {
       Game_window(Point xy,
                   int w,
                   int h,
-                  const string& title,
+                  const string& title, 
                   PlayerList& p);
       private:
             // member variables
@@ -57,7 +51,7 @@ struct Game_window : public Graph_lib::Window {
       static void cb_4x4(Address, Address);
       static void cb_5x5(Address, Address);
       static void cb_matrixstuff(Address, Address);
-
+      
       void readfile(string filename);
       int checkword(string word);
       bool isword(string word);
@@ -71,7 +65,6 @@ struct Game_window : public Graph_lib::Window {
       void makematrix(int size);
       void matrixpressed(Fl_Button*);
 };
-//This function generates a vector of randomly chosen characters
 vector<char> getrand(int n){
       srand(time(NULL));
       vector<char> randos;
@@ -84,7 +77,6 @@ vector<char> getrand(int n){
       }
       return randos;
 }
-//This function makes a matrix of buttons using a vector of randomly generated characters
 void Game_window::makematrix(int size){
       vector<char> newvec=getrand(size);
       int x=0;
@@ -159,6 +151,7 @@ totalscorebox(
       backtomenu.hide();
       greeting.set_font(FL_TIMES_BOLD_ITALIC);
       greeting.set_font_size(15);
+      greeting.set_color(Color::blue);
       attach(greeting);
       userpicture.resize(40,40);
       attach(userpicture);
@@ -172,16 +165,15 @@ totalscorebox(
       matrixsize.attach(new Button(Point(0,0),0,0,"5x5",cb_5x5));
       attach(matrixsize);
       readfile("dictionary.txt");
-      totalscore = 0;
+      totalscore = 0; 
       cout << "Game Window constructed.\n";
 }
 
-//This function reads a file and make sure the file exists
 void Game_window::readfile(string filename){
       // get info from file
       ifstream is(filename);
       if (!is) error("There is no such file in the current folder.");
-
+      
       string word;
       while (!is.eof()){
             getline(is, word);
@@ -195,9 +187,6 @@ void Game_window::donepressed()
 {
       backtomenu.show();
 }
-//This funtion is called whenever the enter button is pressed. If the word exists,
-//the score is updated and the outbox is cleared. If it does not exist, the buttons
-//are replaced.
 void Game_window::enterpressed()
 {
       int points = checkword(currentword);
@@ -212,9 +201,8 @@ void Game_window::enterpressed()
       totalscorebox.put(to_string(totalscore));
       currentword = "";
       currentwordbox.put("");
-}
 
-//This function gives a word a score based on its size if it exists.
+}
 int Game_window::checkword(string word){
       if (isword(currentword)){
             // one point per letter
@@ -224,16 +212,12 @@ int Game_window::checkword(string word){
       return 0;
 }
 
-//This function compares the input word to each dictionary word. If it matches,
-//the function returns true.
-bool Game_window::isword(string input_word){
-      for (string dict_word : words)
-            if (dict_word == input_word) return true;
+bool Game_window::isword(string word){
+      for (string w : words)
+            if (word == w) return true;
       return false;
 }
 
-//This function updates the outbox whenever backspace is pressed and replaces the
-//button.
 void Game_window::backspacepressed(){
       if (last_pressed.size() <= 0) return;
       // this removes the last letter of the word
@@ -244,7 +228,7 @@ void Game_window::backspacepressed(){
       // this removes the last button from the list
       last_pressed.pop_back();
 }
-//These functions display the matrix of desired size and hides the matrix menu.
+
 void Game_window::threepressed()
 {
       matrixsize.hide();
@@ -260,25 +244,11 @@ void Game_window::fivepressed()
       matrixsize.hide();
       makematrix(5);
 }
-//This function is called whenevr the player is about to leave the game. It updates
-//or creates their picture, name and score information.
 void Game_window::quit()
 {
-      string currentplayer = players.current.get_name();
-      string picture = players.current.get_picturepath();
-      // if the player exists, add the totalscore to their scores
-      if (players.exists(currentplayer)) {
-            players[currentplayer].addscore(totalscore);
-            // if the user inputted a new picturepath, update it
-            if (picture != players.missing_pic)
-                  players[currentplayer].set_picture(picture);
-      }
-      else // if the player didn't exist in system, add the player
-            players.add(currentplayer, totalscore, picture);
-
+      players[players.current.get_name()].addscore(totalscore);
       hide();
 }
-//This funciton allows the letter buttons to be aware of their label.
 void Game_window::matrixpressed(Fl_Button* button)
 {
       string letter = button->label();
