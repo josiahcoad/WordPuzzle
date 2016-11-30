@@ -9,7 +9,7 @@
 #define HIGHSCORE_H
 
 
-// GUI, graphics and supporting libraries
+// GUI, graphics and supporting header files
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
 #include "Graph.h"     // next 3 are for graphics library
