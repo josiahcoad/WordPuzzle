@@ -1,3 +1,9 @@
+/*
+ HNR CSCE 121-200, Fall 2016, Final Project
+ Author: Megan Grahmann, Clare Lamers, Josiah Coad
+ CODE DESCRIPTION: This code is gives user interface to the game window
+*/
+
 #include <iostream>    // for i/o
 #include <sstream>     // for string streams
 #include "Graph.h"     // next 3 are for graphics library
@@ -65,6 +71,7 @@ struct Game_window : public Graph_lib::Window {
       void makematrix(int size);
       void matrixpressed(Fl_Button*);
 };
+//This function generates a vector of randomly chosen characters
 vector<char> getrand(int n){
       srand(time(NULL));
       vector<char> randos;
@@ -76,7 +83,7 @@ vector<char> getrand(int n){
             randos.push_back(c);
       }
       return randos;
-}
+}//This function makes a matrix of buttons using a vector of randomly generated characters
 void Game_window::makematrix(int size){
       vector<char> newvec=getrand(size);
       int x=0;
@@ -168,7 +175,7 @@ totalscorebox(
       totalscore = 0; 
       cout << "Game Window constructed.\n";
 }
-
+//This function reads a file and make sure the file exists
 void Game_window::readfile(string filename){
       // get info from file
       ifstream is(filename);
@@ -187,6 +194,9 @@ void Game_window::donepressed()
 {
       backtomenu.show();
 }
+//This funtion is called whenever the enter button is pressed. If the word exists,
+//the score is updated and the outbox is cleared. If it does not exist, the buttons
+//are replaced.
 void Game_window::enterpressed()
 {
       int points = checkword(currentword);
@@ -203,6 +213,7 @@ void Game_window::enterpressed()
       currentwordbox.put("");
 
 }
+//This function gives a word a score based on its size if it exists.
 int Game_window::checkword(string word){
       if (isword(currentword)){
             // one point per letter
@@ -211,13 +222,15 @@ int Game_window::checkword(string word){
       }
       return 0;
 }
-
+//This function compares the input word to each dictionary word. If it matches,
+//the function returns true.
 bool Game_window::isword(string word){
       for (string w : words)
             if (word == w) return true;
       return false;
 }
-
+//This function updates the outbox whenever backspace is pressed and replaces the
+//button.
 void Game_window::backspacepressed(){
       if (last_pressed.size() <= 0) return;
       // this removes the last letter of the word
@@ -228,6 +241,7 @@ void Game_window::backspacepressed(){
       // this removes the last button from the list
       last_pressed.pop_back();
 }
+//These functions display the matrix of desired size and hides the matrix menu.
 
 void Game_window::threepressed()
 {
@@ -244,11 +258,14 @@ void Game_window::fivepressed()
       matrixsize.hide();
       makematrix(5);
 }
+//This function is called whenevr the player is about to leave the game. It updates
+//or creates their picture, name and score information.
 void Game_window::quit()
 {
       players[players.current.get_name()].addscore(totalscore);
       hide();
 }
+//This funciton allows the letter buttons to be aware of their label.
 void Game_window::matrixpressed(Fl_Button* button)
 {
       string letter = button->label();
